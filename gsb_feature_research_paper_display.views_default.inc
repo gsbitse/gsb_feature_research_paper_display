@@ -14,7 +14,7 @@ function gsb_feature_research_paper_display_views_default_views() {
   $view->name = 'research_papers';
   $view->description = '';
   $view->tag = 'default';
-  $view->base_table = 'apachesolr__solr';
+  $view->base_table = 'apachesolr__acquia_search_server_1';
   $view->human_name = 'Research Papers';
   $view->core = 7;
   $view->api_version = '3.0';
@@ -57,19 +57,19 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: Apache Solr: path */
   $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['path']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['path']['field'] = 'path';
   $handler->display->display_options['fields']['path']['label'] = '';
   $handler->display->display_options['fields']['path']['exclude'] = TRUE;
   $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
   /* Field: Apache Solr: im_field_date_published_format_year */
   $handler->display->display_options['fields']['im_field_date_published_format_year']['id'] = 'im_field_date_published_format_year';
-  $handler->display->display_options['fields']['im_field_date_published_format_year']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['im_field_date_published_format_year']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['im_field_date_published_format_year']['field'] = 'im_field_date_published_format_year';
   $handler->display->display_options['fields']['im_field_date_published_format_year']['label'] = 'Date posted';
   /* Field: Apache Solr: label */
   $handler->display->display_options['fields']['label']['id'] = 'label';
-  $handler->display->display_options['fields']['label']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['label']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['label']['field'] = 'label';
   $handler->display->display_options['fields']['label']['label'] = '';
   $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
@@ -77,14 +77,14 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['fields']['label']['element_label_colon'] = FALSE;
   /* Field: Apache Solr: sm_field_research_paper_authors_custom_id */
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['id'] = 'sm_field_research_paper_authors_custom_id';
-  $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['field'] = 'sm_field_research_paper_authors_custom_id';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['label'] = '';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom_id']['hide_alter_empty'] = FALSE;
   /* Field: Apache Solr: sm_field_research_paper_authors_custom */
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['id'] = 'sm_field_research_paper_authors_custom';
-  $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['field'] = 'sm_field_research_paper_authors_custom';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['label'] = '';
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['alter']['alter_text'] = TRUE;
@@ -96,7 +96,7 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['fields']['sm_field_research_paper_authors_custom']['element_label_colon'] = FALSE;
   /* Field: Apache Solr: sm_field_research_body */
   $handler->display->display_options['fields']['sm_field_research_body']['id'] = 'sm_field_research_body';
-  $handler->display->display_options['fields']['sm_field_research_body']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['sm_field_research_body']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['sm_field_research_body']['field'] = 'sm_field_research_body';
   $handler->display->display_options['fields']['sm_field_research_body']['label'] = '';
   $handler->display->display_options['fields']['sm_field_research_body']['alter']['trim_whitespace'] = TRUE;
@@ -107,17 +107,17 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['fields']['sm_field_research_body']['element_label_colon'] = FALSE;
   /* Field: Apache Solr: sm_field_research_tags_custom */
   $handler->display->display_options['fields']['sm_field_research_tags_custom']['id'] = 'sm_field_research_tags_custom';
-  $handler->display->display_options['fields']['sm_field_research_tags_custom']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['fields']['sm_field_research_tags_custom']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['fields']['sm_field_research_tags_custom']['field'] = 'sm_field_research_tags_custom';
   $handler->display->display_options['fields']['sm_field_research_tags_custom']['label'] = 'Tags';
   /* Filter criterion: Apache Solr: bundle */
   $handler->display->display_options['filters']['bundle']['id'] = 'bundle';
-  $handler->display->display_options['filters']['bundle']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['filters']['bundle']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['filters']['bundle']['field'] = 'bundle';
   $handler->display->display_options['filters']['bundle']['value'] = 'research_paper';
   /* Filter criterion: Apache Solr: Search */
   $handler->display->display_options['filters']['keyword']['id'] = 'keyword';
-  $handler->display->display_options['filters']['keyword']['table'] = 'apachesolr__solr';
+  $handler->display->display_options['filters']['keyword']['table'] = 'apachesolr__acquia_search_server_1';
   $handler->display->display_options['filters']['keyword']['field'] = 'keyword';
   $handler->display->display_options['filters']['keyword']['exposed'] = TRUE;
   $handler->display->display_options['filters']['keyword']['expose']['operator_id'] = '';
