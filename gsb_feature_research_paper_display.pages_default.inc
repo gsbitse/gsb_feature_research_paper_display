@@ -132,8 +132,8 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'contentmain';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'research_papers-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
@@ -148,11 +148,21 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
       ),
     );
     $pane->configuration = array(
-      'admin_title' => '',
-      'title' => 'Search for "%Keywords:html_safe"',
-      'body' => '',
-      'format' => 'panopoly_wysiwyg_text',
-      'substitute' => 1,
+      'view_mode' => 'teaser',
+      'widget_title' => NULL,
+      'items_per_page' => NULL,
+      'exposed' => array(
+        'sort_by' => NULL,
+        'sort_order' => NULL,
+      ),
+      'use_pager' => NULL,
+      'pager_id' => NULL,
+      'offset' => NULL,
+      'link_to_view' => NULL,
+      'more_link' => NULL,
+      'path' => NULL,
+      'view_settings' => 'fields',
+      'header_type' => 'none',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -168,7 +178,7 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane->pid = 'new-4';
     $pane->panel = 'contentmain';
     $pane->type = 'views_panes';
-    $pane->subtype = 'research_papers-panel_pane_1';
+    $pane->subtype = 'research_papers_filters-research_list';
     $pane->shown = TRUE;
     $pane->access = array(
       'plugins' => array(
@@ -209,51 +219,6 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-4'] = $pane;
     $display->panels['contentmain'][3] = 'new-4';
-    $pane = new stdClass();
-    $pane->pid = 'new-5';
-    $pane->panel = 'contentmain';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'research_papers_filters-research_list';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '1',
-          ),
-          'context' => 'context_query_string_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'view_mode' => 'teaser',
-      'widget_title' => NULL,
-      'items_per_page' => NULL,
-      'exposed' => array(
-        'sort_by' => NULL,
-        'sort_order' => NULL,
-      ),
-      'use_pager' => NULL,
-      'pager_id' => NULL,
-      'offset' => NULL,
-      'link_to_view' => NULL,
-      'more_link' => NULL,
-      'path' => NULL,
-      'view_settings' => 'fields',
-      'header_type' => 'none',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['contentmain'][4] = 'new-5';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
