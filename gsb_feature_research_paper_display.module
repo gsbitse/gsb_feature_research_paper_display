@@ -1,0 +1,160 @@
+<?php
+/**
+ * @file
+ * Code for the GSB Feature Research Paper Display feature.
+ */
+
+include_once 'gsb_feature_research_paper_display.features.inc';
+
+/**
+ * Implements hook_entity_info_alter()
+ *
+ */
+
+function gsb_feature_research_paper_display_entity_info_alter(&$entity_info)
+{
+  $entity_info['field_collection_item']['view modes']['research_pager'] = array(
+    'label' => t('Research Pager'),
+    'custom settings' => TRUE,
+  );
+
+}
+
+/**
+ * Implements hook_apachesolr_index_document_build_node
+ *
+ */
+function gsb_feature_research_paper_display_apachesolr_index_document_build_node(ApacheSolrDocument $document, $entity, $env_id)
+{
+  // Index field_date_published as a separate field
+  if ($entity->type == 'research_paper') {
+
+    if (!empty($entity->field_date_published)) {
+      $timestamp = strtotime($entity->field_date_published[LANGUAGE_NONE][0]['value']);
+      $document->setMultiValue('im_field_date_published_format_year', date("Y", $timestamp));
+    }
+
+    $field_names_array = array("field_academic_area_unlimited", "field_business_insight_topic", "field_discipline",
+      "field_industry", "field_region", "field_target_audience", "field_company_organization", "field_tag");
+    foreach ($field_names_array as $field_name)
+      if (!empty($entity->$field_name)) {
+        $used_term = array();
+        foreach (reset($entity->$field_name) as $value) {
+          $term = taxonomy_term_load($value['tid']);
+          $intersect = array_intersect($used_term, array($value['tid']));
+          if (empty($intersect))
+            $document->setMultiValue('sm_field_research_tags_custom', $value['tid'] . '>>>' . $term->name);
+          $used_term[] = $value['tid'];
+        }
+      }
+
+    if (!empty($entity->field_body)) {
+      $document->setMultiValue('sm_field_research_body', $entity->field_body[LANGUAGE_NONE][0]['value']);
+    }
+
+    if (!empty($entity->field_research_paper_number)) {
+      $document->setMultiValue('sm_field_research_paper_number', $entity->field_research_paper_number[LANGUAGE_NONE][0]['value']);
+    }
+
+    if (!empty($entity->field_person_fac_student_other)) {
+      $entity_wrapper = entity_metadata_wrapper("node", $entity->nid);
+
+      foreach ($entity_wrapper->field_person_fac_student_other->value() as $key => $value) {
+        $name = $value->field_first_name['und'][0]['value'];
+        $name .= ' ' . $value->field_last_name['und'][0]['value'];
+        $document->setMultiValue('sm_field_research_paper_authors_custom', $name);
+        if (!empty($value->field_person_fac_student_ref))
+          $document->setMultiValue('sm_field_research_paper_authors_custom_id', $key . '|' . $value->field_person_fac_student_ref['und'][0]['target_id']);
+      }
+    }
+
+  }
+}
+
+function gsb_feature_research_paper_display_preprocess_views_view_fields(&$variables)
+{
+  if (!empty($variables['fields']['sm_field_research_tags_custom'])) {
+    $output = '';
+    foreach ($variables['fields']['sm_field_research_tags_custom']->raw as $key => $value) {
+      if ($key != 0)
+        $output .= ", ";
+      $term = explode(">>>", $value);
+      $output .= l($term[1], "taxonomy/term/" . $term[0]);
+    }
+    $variables['fields']['sm_field_research_tags_custom']->content = "<span class='field-content'>$output</span>";
+  }
+  if (!empty($variables['fields']['sm_field_research_paper_authors_custom'])) {
+    $output = "";
+    foreach ($variables['fields']['sm_field_research_paper_authors_custom']->raw as $key => $value) {
+      $new_references = array();
+
+      if (!empty($variables['fields']['sm_field_research_paper_authors_custom_id']->raw)) {
+        $references = $variables['fields']['sm_field_research_paper_authors_custom_id']->raw;
+        foreach ($references as $other_value) {
+          $temp_array = explode("|", $other_value);
+          if (!empty($temp_array[1]))
+            $new_references[$temp_array[0]] = $temp_array[1];
+        }
+      }
+
+      if ($key != 0)
+        $output .= '; ';
+      if (!empty($new_references[$key]))
+        $output .= l($value, 'node/' . $new_references[$key]);
+      else
+        $output .= "<span>$value<span>";
+    }
+    unset($variables['fields']['sm_field_research_paper_authors_custom_id']);
+    $variables['fields']['sm_field_research_paper_authors_custom']->content = "<span class='field - content'>$output</span>";
+  }
+}
+
+// Formatter
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ */
+function gsb_feature_research_paper_display_field_formatter_info()
+{
+  return array(
+    'gsb_research_papers_formatter' => array(
+      'label' => t('Field Collection for Research Papers'),
+      'field types' => array('text'),
+      'settings' => array('view_mode' => 'research_pager'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function gsb_feature_research_paper_display_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display)
+{
+  if ($display['type'] == 'gsb_research_papers_formatter' && $display['settings']['view_mode'] == 'research_pager') {
+    $element = array();
+    $name = "";
+    $name .= @$entity->field_first_name['und'][0]['value'];
+    $name .= ' ' . @$entity->field_last_name['und'][0]['value'];
+    if (!empty($entity->field_person_fac_student_ref))
+      $element[] = array(
+        '#type' => 'link',
+        '#href' => "taxonomy/term/" . $entity->field_person_fac_student_ref['und'][0]['target_id'],
+        '#title' => $name,
+        '#options' => array(
+          'html' => TRUE,
+        ),
+        '#attributes' => array(
+          'class' => array(
+            'linked-author',
+          ),
+        ),
+      );
+    else
+      $element[] = array(
+        '#type' => 'markup',
+        '#markup' => $name,
+      );
+    return $element;
+  }
+}
