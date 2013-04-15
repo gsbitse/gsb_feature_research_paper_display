@@ -43,28 +43,30 @@ function gsb_feature_research_paper_display_apachesolr_index_document_build_node
           $term = taxonomy_term_load($value['tid']);
           $intersect = array_intersect($used_term, array($value['tid']));
           if (empty($intersect))
-            $document->setMultiValue('sm_field_research_tags_custom', $value['tid'] . '>>>' . $term->name);
+            $document->setMultiValue('sm_field_tags_apachesolr', $value['tid'] . '>>>' . $term->name);
           $used_term[] = $value['tid'];
         }
       }
 
     if (!empty($entity->field_body)) {
-      $document->setMultiValue('sm_field_research_body', $entity->field_body[LANGUAGE_NONE][0]['value']);
+      $document->setMultiValue('sm_field_body_apachesolr', $entity->field_body[LANGUAGE_NONE][0]['value']);
     }
 
     if (!empty($entity->field_research_paper_number)) {
-      $document->setMultiValue('sm_field_research_paper_number', $entity->field_research_paper_number[LANGUAGE_NONE][0]['value']);
+      $document->setMultiValue('sm_field_number_apachesolr', $entity->field_research_paper_number[LANGUAGE_NONE][0]['value']);
     }
 
     if (!empty($entity->field_person_fac_student_other)) {
       $entity_wrapper = entity_metadata_wrapper("node", $entity->nid);
 
       foreach ($entity_wrapper->field_person_fac_student_other->value() as $key => $value) {
-        $name = $value->field_first_name['und'][0]['value'];
-        $name .= ' ' . $value->field_last_name['und'][0]['value'];
-        $document->setMultiValue('sm_field_research_paper_authors_custom', $name);
-        if (!empty($value->field_person_fac_student_ref))
-          $document->setMultiValue('sm_field_research_paper_authors_custom_id', $key . '|' . $value->field_person_fac_student_ref['und'][0]['target_id']);
+        if (!(empty($value->field_first_name) && empty($value->field_last_name))) {
+          $name = $value->field_first_name['und'][0]['value'];
+          $name .= ' ' . $value->field_last_name['und'][0]['value'];
+          $document->setMultiValue('sm_field_authors_apachesolr', $name);
+          if (!empty($value->field_person_fac_student_ref))
+            $document->setMultiValue('sm_field_authors_custom_id_apachesolr', $key . '|' . $value->field_person_fac_student_ref['und'][0]['target_id']);
+        }
       }
     }
 
@@ -73,23 +75,24 @@ function gsb_feature_research_paper_display_apachesolr_index_document_build_node
 
 function gsb_feature_research_paper_display_preprocess_views_view_fields(&$variables)
 {
-  if (!empty($variables['fields']['sm_field_research_tags_custom'])) {
+  if (!empty($variables['fields']['sm_field_tags_apachesolr'])) {
     $output = '';
-    foreach ($variables['fields']['sm_field_research_tags_custom']->raw as $key => $value) {
+    foreach ($variables['fields']['sm_field_tags_apachesolr']->raw as $key => $value) {
       if ($key != 0)
         $output .= ", ";
       $term = explode(">>>", $value);
       $output .= l($term[1], "taxonomy/term/" . $term[0]);
     }
-    $variables['fields']['sm_field_research_tags_custom']->content = "<span class='field-content'>$output</span>";
+    $variables['fields']['sm_field_tags_apachesolr']->content = "<span class='field-content'>$output</span>";
   }
-  if (!empty($variables['fields']['sm_field_research_paper_authors_custom'])) {
+
+  if (!empty($variables['fields']['sm_field_authors_apachesolr'])) {
     $output = "";
-    foreach ($variables['fields']['sm_field_research_paper_authors_custom']->raw as $key => $value) {
+    foreach ($variables['fields']['sm_field_authors_apachesolr']->raw as $key => $value) {
       $new_references = array();
 
-      if (!empty($variables['fields']['sm_field_research_paper_authors_custom_id']->raw)) {
-        $references = $variables['fields']['sm_field_research_paper_authors_custom_id']->raw;
+      if (!empty($variables['fields']['sm_field_authors_custom_id_apachesolr']->raw)) {
+        $references = $variables['fields']['sm_field_authors_custom_id_apachesolr']->raw;
         foreach ($references as $other_value) {
           $temp_array = explode("|", $other_value);
           if (!empty($temp_array[1]))
@@ -104,8 +107,8 @@ function gsb_feature_research_paper_display_preprocess_views_view_fields(&$varia
       else
         $output .= "<span>$value<span>";
     }
-    unset($variables['fields']['sm_field_research_paper_authors_custom_id']);
-    $variables['fields']['sm_field_research_paper_authors_custom']->content = "<span class='field - content'>$output</span>";
+    unset($variables['fields']['sm_field_authors_custom_id_apachesolr']);
+    $variables['fields']['sm_field_authors_apachesolr']->content = "<span class='field - content'>$output</span>";
   }
 }
 
@@ -131,7 +134,7 @@ function gsb_feature_research_paper_display_field_formatter_info()
  */
 function gsb_feature_research_paper_display_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display)
 {
-  if ($display['type'] == 'gsb_research_papers_formatter' && $display['settings']['view_mode'] == 'research_pager') {
+  if ($display['type'] == 'gsb_research_papers_formatter' && ($display['settings']['view_mode'] == 'research_pager' || $display['settings']['view_mode'] == 'case_study')) {
     $element = array();
     $name = "";
     $name .= @$entity->field_first_name['und'][0]['value'];
