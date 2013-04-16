@@ -11,6 +11,7 @@ dependencies[] = strongarm
 dependencies[] = views
 dependencies[] = views_content
 dependencies[] = views_load_more
+datestamp = 1366046925
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
