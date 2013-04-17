@@ -15,7 +15,7 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Research papers search page';
   $page->admin_description = '';
-  $page->path = 'research-paper/!keywords';
+  $page->path = 'faculty-research/research/papers/!keywords';
   $page->access = array(
     'plugins' => array(
       0 => array(

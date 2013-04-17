@@ -22,6 +22,7 @@ function gsb_feature_research_paper_display_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'view-list-search';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
@@ -55,6 +56,13 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['pager']['options']['use_go_to_top_text'] = 'Back to the Top';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'no results found.';
+  $handler->display->display_options['empty']['area']['format'] = 'panopoly_wysiwyg_text';
   /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['path']['id'] = 'path';
   $handler->display->display_options['fields']['path']['table'] = 'apachesolr__acquia_search_server_1';
@@ -156,11 +164,13 @@ function gsb_feature_research_paper_display_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'view-list-teaser';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['query']['options']['distinct'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
   $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['bef'] = array(
@@ -211,92 +221,20 @@ function gsb_feature_research_paper_display_views_default_views() {
       ),
     ),
   );
-  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['type'] = 'load_more';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['use_go_to_top_link'] = 0;
   $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Date Published */
-  $handler->display->display_options['fields']['field_date_published']['id'] = 'field_date_published';
-  $handler->display->display_options['fields']['field_date_published']['table'] = 'field_data_field_date_published';
-  $handler->display->display_options['fields']['field_date_published']['field'] = 'field_date_published';
-  $handler->display->display_options['fields']['field_date_published']['label'] = 'Date posted';
-  $handler->display->display_options['fields']['field_date_published']['element_type'] = 'span';
-  $handler->display->display_options['fields']['field_date_published']['element_label_type'] = 'span';
-  $handler->display->display_options['fields']['field_date_published']['settings'] = array(
-    'format_type' => 'gsb_format_year',
-    'fromto' => 'both',
-    'multiple_number' => '',
-    'multiple_from' => '',
-    'multiple_to' => '',
-    'show_repeat_rule' => 'show',
-    'conditions' => array(
-      0 => array(
-        'condition' => '',
-      ),
-    ),
-  );
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Authors */
-  $handler->display->display_options['fields']['field_person_fac_student_other']['id'] = 'field_person_fac_student_other';
-  $handler->display->display_options['fields']['field_person_fac_student_other']['table'] = 'field_data_field_person_fac_student_other';
-  $handler->display->display_options['fields']['field_person_fac_student_other']['field'] = 'field_person_fac_student_other';
-  $handler->display->display_options['fields']['field_person_fac_student_other']['type'] = 'field_collection_fields';
-  $handler->display->display_options['fields']['field_person_fac_student_other']['settings'] = array(
-    'view_mode' => 'research_pager',
-    'conditions' => array(
-      0 => array(
-        'condition' => '',
-      ),
-    ),
-  );
-  $handler->display->display_options['fields']['field_person_fac_student_other']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_person_fac_student_other']['separator'] = '; ';
-  /* Field: Field: Body */
-  $handler->display->display_options['fields']['field_body']['id'] = 'field_body';
-  $handler->display->display_options['fields']['field_body']['table'] = 'field_data_field_body';
-  $handler->display->display_options['fields']['field_body']['field'] = 'field_body';
-  $handler->display->display_options['fields']['field_body']['label'] = '';
-  $handler->display->display_options['fields']['field_body']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['field_body']['alter']['max_length'] = '250';
-  $handler->display->display_options['fields']['field_body']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['field_body']['alter']['trim'] = TRUE;
-  $handler->display->display_options['fields']['field_body']['alter']['html'] = TRUE;
-  $handler->display->display_options['fields']['field_body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_body']['settings'] = array(
-    'conditions' => array(
-      0 => array(
-        'condition' => '',
-      ),
-    ),
-  );
-  /* Field: Content: All taxonomy terms */
-  $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
-  $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';
-  $handler->display->display_options['fields']['term_node_tid']['field'] = 'term_node_tid';
-  $handler->display->display_options['fields']['term_node_tid']['label'] = 'Tags';
-  $handler->display->display_options['fields']['term_node_tid']['vocabularies'] = array(
-    'academic_area' => 0,
-    'business_insight_topic' => 0,
-    'panopoly_categories' => 0,
-    'centers_research_programs' => 0,
-    'club_category' => 0,
-    'company_organization' => 0,
-    'department' => 0,
-    'discipline' => 0,
-    'event_category' => 0,
-    'event_series' => 0,
-    'industry' => 0,
-    'program' => 0,
-    'region' => 0,
-    'tag' => 0,
-    'target_audience' => 0,
-    'workbench_sections' => 0,
-  );
+  $handler->display->display_options['row_plugin'] = 'ds';
+  $handler->display->display_options['row_options']['alternating'] = 0;
+  $handler->display->display_options['row_options']['grouping'] = 0;
+  $handler->display->display_options['row_options']['advanced'] = 0;
+  $handler->display->display_options['row_options']['delta_fieldset']['delta_fields'] = array();
+  $handler->display->display_options['row_options']['grouping_fieldset']['group_field'] = 'node|created';
+  $handler->display->display_options['row_options']['default_fieldset']['view_mode'] = 'teaser';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
