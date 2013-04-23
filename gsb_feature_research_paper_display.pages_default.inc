@@ -32,7 +32,14 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array();
-  $page->arguments = array();
+  $page->arguments = array(
+    'keywords' => array(
+      'id' => '',
+      'identifier' => '',
+      'argument' => '',
+      'settings' => array(),
+    ),
+  );
   $page->conf = array(
     'admin_paths' => FALSE,
   );
@@ -72,13 +79,15 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     'panels_breadcrumbs_home' => 1,
   );
   $display = new panels_display();
-  $display->layout = 'gsb-standard-page-three';
+  $display->layout = 'gsb-standard-page-two';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
       'default' => NULL,
       'sidebar' => NULL,
       'contentmain' => NULL,
+      'main' => NULL,
+      'quicklinks' => NULL,
     ),
   );
   $display->cache = array();
@@ -87,9 +96,9 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'contentmain';
+    $pane->panel = 'main';
     $pane->type = 'block';
-    $pane->subtype = 'views-1e103e8053f3cdbc6755c24f7314eb6b';
+    $pane->subtype = 'views-b17698c248d17d2e15c8746d90cacb23';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -106,18 +115,41 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['contentmain'][0] = 'new-1';
+    $display->panels['main'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'contentmain';
-    $pane->type = 'block';
-    $pane->subtype = 'views-fea959de4c14e1cdaa9c94b7b0d2358f';
+    $pane->panel = 'main';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'research_paper_filters-research_paper_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'context_exists',
+          'settings' => array(
+            'exists' => '0',
+          ),
+          'context' => 'context_query_string_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
-      'inherit_path' => 1,
-      'override_title' => 0,
-      'override_title_text' => '',
+      'view_mode' => 'teaser',
+      'widget_title' => NULL,
+      'items_per_page' => NULL,
+      'exposed' => array(
+        'sort_by' => NULL,
+        'sort_order' => NULL,
+      ),
+      'use_pager' => NULL,
+      'pager_id' => NULL,
+      'offset' => NULL,
+      'link_to_view' => NULL,
+      'more_link' => NULL,
+      'path' => NULL,
+      'view_settings' => 'fields',
+      'header_type' => 'none',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -128,10 +160,10 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane->position = 1;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['contentmain'][1] = 'new-2';
+    $display->panels['main'][1] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
-    $pane->panel = 'contentmain';
+    $pane->panel = 'main';
     $pane->type = 'views_panes';
     $pane->subtype = 'research_papers-panel_pane_1';
     $pane->shown = TRUE;
@@ -173,41 +205,18 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     $pane->position = 2;
     $pane->locks = array();
     $display->content['new-3'] = $pane;
-    $display->panels['contentmain'][2] = 'new-3';
+    $display->panels['main'][2] = 'new-3';
     $pane = new stdClass();
     $pane->pid = 'new-4';
-    $pane->panel = 'contentmain';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'research_papers_filters-research_list';
+    $pane->panel = 'quicklinks';
+    $pane->type = 'block';
+    $pane->subtype = 'views-fea959de4c14e1cdaa9c94b7b0d2358f';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'context_exists',
-          'settings' => array(
-            'exists' => '0',
-          ),
-          'context' => 'context_query_string_1',
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array(
-      'view_mode' => 'teaser',
-      'widget_title' => NULL,
-      'items_per_page' => NULL,
-      'exposed' => array(
-        'sort_by' => NULL,
-        'sort_order' => NULL,
-      ),
-      'use_pager' => NULL,
-      'pager_id' => NULL,
-      'offset' => NULL,
-      'link_to_view' => NULL,
-      'more_link' => NULL,
-      'path' => NULL,
-      'view_settings' => 'fields',
-      'header_type' => 'none',
+      'inherit_path' => 1,
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -215,10 +224,10 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 0;
     $pane->locks = array();
     $display->content['new-4'] = $pane;
-    $display->panels['contentmain'][3] = 'new-4';
+    $display->panels['quicklinks'][0] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
