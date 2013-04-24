@@ -305,7 +305,7 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['defaults']['use_more_text'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'View more like this';
-  $handler->display->display_options['link_url'] = '/faculty-research/research/papers';
+  $handler->display->display_options['link_url'] = 'faculty-research/research/papers';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
