@@ -135,7 +135,6 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
       ),
     );
     $pane->configuration = array(
-      'view_mode' => 'teaser',
       'widget_title' => NULL,
       'items_per_page' => NULL,
       'exposed' => array(
@@ -180,7 +179,6 @@ function gsb_feature_research_paper_display_default_page_manager_pages() {
       ),
     );
     $pane->configuration = array(
-      'view_mode' => 'teaser',
       'widget_title' => NULL,
       'items_per_page' => NULL,
       'exposed' => array(
