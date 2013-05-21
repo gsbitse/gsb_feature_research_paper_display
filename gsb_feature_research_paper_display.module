@@ -20,97 +20,7 @@ function gsb_feature_research_paper_display_entity_info_alter(&$entity_info)
 
 }
 
-/**
- * Implements hook_apachesolr_index_document_build_node
- *
- */
-function gsb_feature_research_paper_display_apachesolr_index_document_build_node(ApacheSolrDocument $document, $entity, $env_id)
-{
-  // Index field_date_published as a separate field
-  if ($entity->type == 'research_paper') {
 
-    if (!empty($entity->field_date_published)) {
-      $timestamp = strtotime($entity->field_date_published[LANGUAGE_NONE][0]['value']);
-      $document->setMultiValue('im_field_date_published_format_year', date("Y", $timestamp));
-    }
-
-    $field_names_array = array("field_academic_area_unlimited", "field_business_insight_topic", "field_discipline",
-      "field_industry", "field_region", "field_target_audience", "field_company_organization", "field_tag");
-    foreach ($field_names_array as $field_name)
-      if (!empty($entity->$field_name)) {
-        $used_term = array();
-        foreach (reset($entity->$field_name) as $value) {
-          $term = taxonomy_term_load($value['tid']);
-          $intersect = array_intersect($used_term, array($value['tid']));
-          if (empty($intersect))
-            $document->setMultiValue('sm_field_tags_apachesolr', $value['tid'] . '>>>' . $term->name);
-          $used_term[] = $value['tid'];
-        }
-      }
-
-    if (!empty($entity->field_body)) {
-      $document->setMultiValue('sm_field_body_apachesolr', $entity->field_body[LANGUAGE_NONE][0]['value']);
-    }
-
-    if (!empty($entity->field_research_paper_number)) {
-      $document->setMultiValue('sm_field_number_apachesolr', $entity->field_research_paper_number[LANGUAGE_NONE][0]['value']);
-    }
-
-    if (!empty($entity->field_person_fac_student_other)) {
-      $entity_wrapper = entity_metadata_wrapper("node", $entity->nid);
-
-      foreach ($entity_wrapper->field_person_fac_student_other->value() as $key => $value) {
-        if (!(empty($value->field_first_name) && empty($value->field_last_name))) {
-          $name = $value->field_first_name['und'][0]['value'];
-          $name .= ' ' . $value->field_last_name['und'][0]['value'];
-          $document->setMultiValue('sm_field_authors_apachesolr', $name);
-          if (!empty($value->field_person_fac_student_ref))
-            $document->setMultiValue('sm_field_authors_custom_id_apachesolr', $key . '|' . $value->field_person_fac_student_ref['und'][0]['target_id']);
-        }
-      }
-    }
-
-  }
-}
-
-function gsb_feature_research_paper_display_preprocess_views_view_fields(&$variables)
-{
-  if (!empty($variables['fields']['sm_field_tags_apachesolr'])) {
-    $output = '';
-    foreach ($variables['fields']['sm_field_tags_apachesolr']->raw as $key => $value) {
-      if ($key != 0)
-        $output .= ", ";
-      $term = explode(">>>", $value);
-      $output .= l($term[1], "taxonomy/term/" . $term[0]);
-    }
-    $variables['fields']['sm_field_tags_apachesolr']->content = "<span class='field-content'>$output</span>";
-  }
-
-  if (!empty($variables['fields']['sm_field_authors_apachesolr'])) {
-    $output = "";
-    foreach ($variables['fields']['sm_field_authors_apachesolr']->raw as $key => $value) {
-      $new_references = array();
-
-      if (!empty($variables['fields']['sm_field_authors_custom_id_apachesolr']->raw)) {
-        $references = $variables['fields']['sm_field_authors_custom_id_apachesolr']->raw;
-        foreach ($references as $other_value) {
-          $temp_array = explode("|", $other_value);
-          if (!empty($temp_array[1]))
-            $new_references[$temp_array[0]] = $temp_array[1];
-        }
-      }
-
-      if ($key != 0)
-        $output .= '; ';
-      if (!empty($new_references[$key]))
-        $output .= l($value, 'node/' . $new_references[$key]);
-      else
-        $output .= "<span>$value<span>";
-    }
-    unset($variables['fields']['sm_field_authors_custom_id_apachesolr']);
-    $variables['fields']['sm_field_authors_apachesolr']->content = "<span class='field - content'>$output</span>";
-  }
-}
 
 // Formatter
 
@@ -159,5 +69,14 @@ function gsb_feature_research_paper_display_field_formatter_view($entity_type, $
         '#markup' => $name,
       );
     return $element;
+  }
+}
+/**
+ * Implements hook_form_FORM_ID_alter() for views_exposed_form().
+ */
+function gsb_feature_research_paper_display_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_state['view']->name == 'research_paper_filters') {
+    // Exclude the search text field from auto-submit.
+    $form['search']['#attributes']['class'][] = 'ctools-auto-submit-exclude';
   }
 }

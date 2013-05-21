@@ -233,6 +233,30 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['filters']['term_node_tid_depth_1']['vocabulary'] = 'discipline';
   $handler->display->display_options['filters']['term_node_tid_depth_1']['error_message'] = FALSE;
   $handler->display->display_options['filters']['term_node_tid_depth_1']['depth'] = '10';
+  /* Filter criterion: Content: Search field (field_search_field) */
+  $handler->display->display_options['filters']['field_search_field_value']['id'] = 'field_search_field_value';
+  $handler->display->display_options['filters']['field_search_field_value']['table'] = 'field_data_field_search_field';
+  $handler->display->display_options['filters']['field_search_field_value']['field'] = 'field_search_field_value';
+  $handler->display->display_options['filters']['field_search_field_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_search_field_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['operator_id'] = 'field_search_field_value_op';
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['operator'] = 'field_search_field_value_op';
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['identifier'] = 'search';
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    7 => 0,
+    6 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['autocomplete_items'] = '10';
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['autocomplete_raw_suggestion'] = 1;
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['autocomplete_raw_dropdown'] = 1;
+  $handler->display->display_options['filters']['field_search_field_value']['expose']['autocomplete_dependent'] = 0;
 
   /* Display: Research Paper list */
   $handler = $view->new_display('panel_pane', 'Research Paper list', 'research_paper_list');
@@ -559,150 +583,6 @@ function gsb_feature_research_paper_display_views_default_views() {
     ),
   );
   $export['research_paper_filters'] = $view;
-
-  $view = new view();
-  $view->name = 'research_papers';
-  $view->description = '';
-  $view->tag = 'default';
-  $view->base_table = 'apachesolr__acquia_search_server_1';
-  $view->human_name = 'Research Paper search';
-  $view->core = 7;
-  $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-  /* Display: Master */
-  $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['css_class'] = 'view-list-search';
-  $handler->display->display_options['use_ajax'] = TRUE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['cache']['type'] = 'none';
-  $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
-  $handler->display->display_options['exposed_form']['options']['bef'] = array(
-    'general' => array(
-      'allow_secondary' => 0,
-      'secondary_label' => 'Advanced options',
-    ),
-    'keyword' => array(
-      'more_options' => array(
-        'is_secondary' => 0,
-        'bef_filter_description' => '',
-        'tokens' => array(
-          'available' => array(
-            0 => 'global_types',
-          ),
-        ),
-      ),
-    ),
-  );
-  $handler->display->display_options['pager']['type'] = 'load_more';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '20';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['more_button_text'] = 'Show more';
-  $handler->display->display_options['pager']['options']['use_go_to_top_link'] = 1;
-  $handler->display->display_options['pager']['options']['use_go_to_top_text'] = 'Back to the Top';
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['row_plugin'] = 'fields';
-  /* No results behavior: Global: Text area */
-  $handler->display->display_options['empty']['area']['id'] = 'area';
-  $handler->display->display_options['empty']['area']['table'] = 'views';
-  $handler->display->display_options['empty']['area']['field'] = 'area';
-  $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'no results found.';
-  $handler->display->display_options['empty']['area']['format'] = 'gsb_wysiwyg_text';
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['path']['id'] = 'path';
-  $handler->display->display_options['fields']['path']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['path']['field'] = 'path';
-  $handler->display->display_options['fields']['path']['label'] = '';
-  $handler->display->display_options['fields']['path']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['path']['element_label_colon'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['im_field_date_published_format_year']['id'] = 'im_field_date_published_format_year';
-  $handler->display->display_options['fields']['im_field_date_published_format_year']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['im_field_date_published_format_year']['field'] = 'im_field_date_published_format_year';
-  $handler->display->display_options['fields']['im_field_date_published_format_year']['label'] = 'Date posted';
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['label']['id'] = 'label';
-  $handler->display->display_options['fields']['label']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['label']['field'] = 'label';
-  $handler->display->display_options['fields']['label']['label'] = '';
-  $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['label']['alter']['path'] = '[path]';
-  $handler->display->display_options['fields']['label']['element_label_colon'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['sm_field_number_apachesolr']['id'] = 'sm_field_number_apachesolr';
-  $handler->display->display_options['fields']['sm_field_number_apachesolr']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['sm_field_number_apachesolr']['field'] = 'sm_field_number_apachesolr';
-  $handler->display->display_options['fields']['sm_field_number_apachesolr']['label'] = '';
-  $handler->display->display_options['fields']['sm_field_number_apachesolr']['element_label_colon'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['id'] = 'sm_field_authors_custom_id_apachesolr';
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['field'] = 'sm_field_authors_custom_id_apachesolr';
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['label'] = '';
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['sm_field_authors_custom_id_apachesolr']['hide_alter_empty'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['id'] = 'sm_field_authors_apachesolr';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['field'] = 'sm_field_authors_apachesolr';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['label'] = 'Authors';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['text'] = '[sm_field_authors_custom_id_apachesolr]';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['max_length'] = '50000';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['alter']['preserve_tags'] = '<a>';
-  $handler->display->display_options['fields']['sm_field_authors_apachesolr']['hide_empty'] = TRUE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['id'] = 'sm_field_body_apachesolr';
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['field'] = 'sm_field_body_apachesolr';
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['label'] = '';
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['alter']['trim_whitespace'] = TRUE;
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['alter']['nl2br'] = TRUE;
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['alter']['max_length'] = '250';
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['alter']['trim'] = TRUE;
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['alter']['html'] = TRUE;
-  $handler->display->display_options['fields']['sm_field_body_apachesolr']['element_label_colon'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['sm_field_tags_apachesolr']['id'] = 'sm_field_tags_apachesolr';
-  $handler->display->display_options['fields']['sm_field_tags_apachesolr']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['fields']['sm_field_tags_apachesolr']['field'] = 'sm_field_tags_apachesolr';
-  $handler->display->display_options['fields']['sm_field_tags_apachesolr']['label'] = 'Tags';
-  /* Filter criterion: Broken/missing handler */
-  $handler->display->display_options['filters']['bundle']['id'] = 'bundle';
-  $handler->display->display_options['filters']['bundle']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['filters']['bundle']['field'] = 'bundle';
-  $handler->display->display_options['filters']['bundle']['value'] = 'research_paper';
-  /* Filter criterion: Apache Solr: Search */
-  $handler->display->display_options['filters']['keyword']['id'] = 'keyword';
-  $handler->display->display_options['filters']['keyword']['table'] = 'apachesolr__acquia_search_server_1';
-  $handler->display->display_options['filters']['keyword']['field'] = 'keyword';
-  $handler->display->display_options['filters']['keyword']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['keyword']['expose']['operator_id'] = '';
-  $handler->display->display_options['filters']['keyword']['expose']['label'] = 'Search';
-  $handler->display->display_options['filters']['keyword']['expose']['operator'] = 'keyword_op';
-  $handler->display->display_options['filters']['keyword']['expose']['identifier'] = 'keyword';
-  $handler->display->display_options['filters']['keyword']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
-  );
-
-  /* Display: Content pane */
-  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['link_url'] = 'faculty-research/research/papers';
-  $handler->display->display_options['exposed_block'] = TRUE;
-  $export['research_papers'] = $view;
 
   return $export;
 }
