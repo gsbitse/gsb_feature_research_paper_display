@@ -296,7 +296,7 @@ function gsb_feature_research_paper_display_views_default_views() {
   );
   $handler->display->display_options['arguments']['field_tag_tid']['validate_options']['type'] = 'convert';
   $handler->display->display_options['arguments']['field_tag_tid']['validate']['fail'] = 'ignore';
-  $handler->display->display_options['pane_category']['name'] = 'GSB Content Panes';
+  $handler->display->display_options['pane_category']['name'] = 'Other';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
@@ -561,7 +561,7 @@ function gsb_feature_research_paper_display_views_default_views() {
   $handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
   $handler->display->display_options['filters']['tid']['vocabulary'] = 'tag';
   $handler->display->display_options['filters']['tid']['error_message'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'GSB Content Panes';
+  $handler->display->display_options['pane_category']['name'] = 'Content Panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 'items_per_page';

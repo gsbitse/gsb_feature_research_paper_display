@@ -21,3 +21,4 @@ features[page_manager_pages][] = research_papers_search_page
 features[variable][] = date_format_gsb_format_year
 features[variable][] = date_format_years
 features[views_view][] = research_paper_filters
+
